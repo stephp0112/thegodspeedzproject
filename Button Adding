@@ -1,0 +1,33 @@
+
+int ledPin = 8;        //LED light pin
+int buttonPin = 4;     //button pin
+int motionSensor = 2;         //motionSensor pin
+int sensorVal = LOW;       //no motion is detected
+int buttonState = 0;
+
+//int sensorVal = 0;           //variable that stores the motionSensor status
+void setup() {
+  pinMode(ledPin, OUTPUT);       //assigning the LED as an output
+  pinMode(buttonPin, INPUT);    //assigning button as an input
+  pinMode(motionSensor, INPUT);    //assigning the PIR as the input
+  Serial.begin(9600);       
+}
+void loop() {
+  buttonState = digitalRead(buttonPin);
+  sensorVal = digitalRead(motionSensor);  
+  if (buttonState == HIGH){
+    if (sensorVal == HIGH) {          //if motionSensor is high,
+    digitalWrite(ledPin, HIGH); //the LED will turn on
+//    delay(100);            
+    if (sensorVal == LOW) {
+      Serial.println("Groceries have been detected!");
+      sensorVal = HIGH;         //updating the variable state to HIGH
+    }
+  }
+  else {
+    digitalWrite(ledPin, LOW);   //LED turns off
+//    delay(100);
+    if (sensorVal == HIGH) {
+      Serial.println("Groceries have been moved");  //updating variable state to LOW
+      sensorVal = LOW;
+  }
